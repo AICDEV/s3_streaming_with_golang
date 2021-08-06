@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+option go_package = "github.com/aicdev/s3_streaming_with_golang";
+
+package transactions;
+
+message User {
+    string email = 1;
+    string id = 2;
+    repeated Transaction transactions = 3;
+}
+
+message TransactionCollection {
+    repeated Transaction transactions = 1;
+}
+
+message Transaction {
+    double anmount = 1;
+    enum Currency {
+        EUR = 0;
+        USD = 1;
+    }
+
+    Currency currency = 2;
+    string recipient = 3;
+    string reason = 4;
+    string verificationKey = 5;
+    string userId = 6;
+}
+
+service TransactionService {
+    rpc GetUserTransactions(User) returns (stream Transaction) {}
+}
